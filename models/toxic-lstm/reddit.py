@@ -37,7 +37,7 @@ test = pad_sequences(test_tokens, maxlen=300)
 model = load_model('save/model.h5')
 
 submission = pd.read_csv('../../data/reddit-selfposts/rspct.tsv', sep='\t')
-y_pred = model.predict(test, batch_size=1024)
+y_pred = model.predict(test, batch_size=1024, verbose=1)
 submission["toxic"] = y_pred[:,0]
 submission["severe_toxic"] = y_pred[:,1]
 submission["obscene"] = y_pred[:,2]
