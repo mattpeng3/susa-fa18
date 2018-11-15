@@ -1,10 +1,12 @@
 import sys
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import load_model
 from util.tokenizer_helpers import *
+tqdm.pandas()
 
 # Basic cleaning
 from html.parser import HTMLParser
@@ -29,10 +31,10 @@ tokenizer = load_tokenizer('save/tokenizer.pickle')
 
 # Load the test data
 test_data = pd.read_csv('../../data/reddit-selfposts/rspct.tsv', sep='\t')
-test_sent = test_data['selftext']
-test_sent = test_sent.map(strip_tags) # Clean it up a little
-test_tokens = tokenizer.texts_to_sequences(test_sent)
-test = pad_sequences(test_tokens, maxlen=300)
+
+test_sent = test_data['selftext'].progress_apply(strip_tags) # Clean the data
+test_tokens = tokenizer.texts_to_sequences(test_sent) # Convert to sequences
+test = pad_sequences(test_tokens, maxlen=300) # Fixed-length sequences
 
 model = load_model('save/model.h5')
 
