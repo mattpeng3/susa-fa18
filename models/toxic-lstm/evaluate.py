@@ -14,6 +14,7 @@ args = parser.parse_args()
 
 # Rebuild saved tokenizer
 tokenizer = load_tokenizer('save/tokenizer.pickle')
+save_word_index('save/tokenizer_word_index.json', tokenizer)
 
 # Load the test data
 test_data = pd.read_csv('data/test.csv')
