@@ -1,5 +1,7 @@
-# Toxic Comment Classification
-A deep learning system to identify and classify toxic online comments. Heavily based on [work done by Gautam Mittal](https://github.com/gmittal/toxic-comments).
+# LSTM Model
+An improved deep neural model with bidirectional LSTM cells and one-dimensional convolutional layers.
+
+Originally written as a deep learning system to identify and classify toxic online comments. Heavily based on [work done by Gautam Mittal](https://github.com/gmittal/toxic-comments).
 
 Data is from a [Kaggle competition](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge) hosted by [Google Jigsaw](https://jigsaw.google.com/)'s [Conversation AI](https://conversationai.github.io/) team.
 
