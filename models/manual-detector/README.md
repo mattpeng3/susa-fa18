@@ -1,5 +1,5 @@
 ### Baseline Toxicity Model
-An intuitive baseline model would be to correlate toxicity with a weighted average of the occurrences of obscene words found in the comment threads on social networks.
+An intuitive baseline model is to correlate toxicity with the frequency of obscene words found in comment threads on social networks.
 
 ```python
 def predict(comment):
