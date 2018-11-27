@@ -18,7 +18,7 @@ checkpoint = ModelCheckpoint('save/model.h5',
                                 save_best_only=True,
                                 mode='max')
 
-train_data = pd.read_csv('../../data/train.csv')
+train_data = pd.read_csv('../../data/toxic-comments/train.csv')
 y = train_data[['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']].values
 train_sent = train_data['comment_text']
 

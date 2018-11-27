@@ -2,8 +2,7 @@ import numpy as np
 import pandas as pd
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Input, LSTM, Embedding, Dropout, Embedding
-from keras.layers import Bidirectional, GlobalMaxPool1D, Conv1D
+from keras.layers import Dense,  Embedding, Flatten
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -18,7 +17,7 @@ checkpoint = ModelCheckpoint('save/model.h5',
                                 save_best_only=True,
                                 mode='max')
 
-train_data = pd.read_csv('../../data/train.csv')
+train_data = pd.read_csv('../../data/toxic-comments/train.csv')
 y = train_data[['toxic', 'severe_toxic', 'obscene', 'threat', 'insult', 'identity_hate']].values
 train_sent = train_data['comment_text']
 
@@ -31,12 +30,8 @@ train = pad_sequences(train_tokens, maxlen=300)
 
 model = Sequential()
 model.add(Embedding(20000, 256, input_length=300))
-model.add(Bidirectional(LSTM(128, return_sequences=True)))
-model.add(Conv1D(64, kernel_size=3, padding="valid", kernel_initializer="glorot_uniform"))
-model.add(GlobalMaxPool1D())
-model.add(Dropout(0.1))
-model.add(Dense(50, activation='relu'))
-model.add(Dropout(0.1))
+model.add(Flatten())
+model.add(Dense(250, activation='relu'))
 model.add(Dense(6, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 keras.utils.plot_model(model, to_file='save/model.png') # Save a graphical representation of the model
