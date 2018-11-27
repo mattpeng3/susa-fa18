@@ -1,7 +1,7 @@
 let MAXLEN = 300
 let WORD_INDEX = JSON.parse($.ajax({
   dataType: "json",
-  url: '../../models/toxic-lstm/save/tokenizer_word_index.json',
+  url: '../../../models/toxic-lstm/save/tokenizer_word_index.json',
   async: false
 }).responseText);
 
@@ -34,7 +34,7 @@ let process_text = (text) => {
 // Load trained Keras model
 var model;
 (async () => {
-  model = await tf.loadModel('../../models/toxic-lstm/tfjs/model.json')
+  model = await tf.loadModel('../../../models/toxic-lstm/tfjs/model.json')
 })().then(() => {
   $('#prediction #circle').removeClass('loading').addClass('real')
   $('#prediction #helper').text('Ready')
