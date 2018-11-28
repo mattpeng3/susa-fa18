@@ -1,7 +1,7 @@
 let MAXLEN = 300
 let WORD_INDEX = JSON.parse($.ajax({
   dataType: "json",
-  url: '../../../models/toxic-lstm/save/tokenizer_word_index.json',
+  url: '../../../models/lstm/save/tokenizer_word_index.json',
   async: false
 }).responseText);
 
@@ -34,22 +34,36 @@ let process_text = (text) => {
 // Load trained Keras model
 var model;
 (async () => {
-  model = await tf.loadModel('../../../models/toxic-lstm/tfjs/model.json')
+  model = await tf.loadModel('../../../models/lstm/tfjs/model.json')
 })().then(() => {
   $('#prediction #circle').removeClass('loading').addClass('real')
   $('#prediction #helper').text('Ready')
 });
 
 async function evaluate(text) {
-  let prediction = await model.predict(process_text(text)).get(0, 0)
-    console.log(prediction)
-  if (prediction > 0.5) {
-    $('#prediction #circle').removeClass('loading').addClass('fake')
-    $('#prediction #helper').text(`Toxic (${prediction.toFixed(2)})`)
-  } else {
-    $('#prediction #circle').removeClass('loading').addClass('real')
-    $('#prediction #helper').text(`Non-toxic (${prediction.toFixed(2)})`)
-  }
+    var prediction = await model.predict(process_text(text))
+    let categories = [{'class': 'toxic', 'label': ['Toxic', 'Non-toxic'], 'score': prediction.get(0, 0)}, 
+     {'class': 'severe', 'label': ['Severe', 'Mild'], 'score': prediction.get(0, 1)},
+     {'class': 'obscene', 'label': ['Obscene', 'Clean'], 'score': prediction.get(0, 2)},
+     {'class': 'threat', 'label': ['Threat', 'Non-threat'], 'score': prediction.get(0, 3)},
+     {'class': 'insult', 'label': ['Insult', 'Non-insult'], 'score': prediction.get(0, 4)},
+     {'class': 'identity_hate', 'label': ['Identity hate', 'No identity hate'], 'score': prediction.get(0, 5)}]
+
+    var info = {}
+    for (var i = 0; i < categories.length; i++) {
+	cat = categories[i]
+	info[cat.class] = cat.score.toFixed(2)
+    }
+    console.log(`${text}: ${JSON.stringify(info)}`)
+
+    toxic = categories[0].score
+    if (toxic > 0.5) {
+	$('#prediction #circle').removeClass('loading').addClass('fake')
+	$('#prediction #helper').text(`Toxic (${toxic.toFixed(2)})`)
+    } else {
+	$('#prediction #circle').removeClass('loading').addClass('real')
+	$('#prediction #helper').text(`Non-toxic (${toxic.toFixed(2)})`)
+    }
 }
 
 var typingTimer;
