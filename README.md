@@ -10,4 +10,5 @@ Play with our toxicity models in your web browser!
 - [Baseline](https://gautam.cc/susa-fa18/interactive/models/baseline/)
 - [Multilayer Perceptron](https://gautam.cc/susa-fa18/interactive/models/mlp/)
 - [Bidirectional LSTM](https://gautam.cc/susa-fa18/interactive/models/lstm/)
+
 Check out our [topic graph](https://gautam.cc/susa-fa18/interactive/graphs/)!
